@@ -14,7 +14,7 @@ const PostSchema = new Schema({
     required: true,
   },
   feature: {
-    type: String,
+    type: Boolean,
     require: true,
   },
   category: {
