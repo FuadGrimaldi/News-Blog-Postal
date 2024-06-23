@@ -94,4 +94,67 @@ const createPost = async (req, res, next) => {
   }
 };
 
-module.exports = { createPost, readOnePost, readPost, putPost, deletePost };
+const nextPage = async (req, res) => {
+  try {
+    const locals = {
+      title: "NodeJS Blog",
+      description: "Simple blog created with NodeJS, Express & MongoDB ",
+    };
+    let perPage = 8;
+    let page = req.query.page || 1;
+
+    const data = await Post.aggregate([{ $sort: { createAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+    const countPage = await Post.countDocuments();
+    const nextPage = parseInt(page) + 1;
+    const hasNextPage = nextPage <= Math.ceil(countPage / perPage);
+
+    res.render("index", {
+      locals,
+      data,
+      current: page,
+      nextPage: hasNextPage ? nextPage : null,
+      currentRoute: "/",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const searchPost = async (req, res, next) => {
+  try {
+    const locals = {
+      title: "search",
+      description: "Simple blog created with NodeJS, Express & MongoDB ",
+    };
+    let searchTerm = req.body.searchTerm;
+    const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g, "");
+    const data = await Post.find({
+      $or: [
+        { author: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+        { title: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+        { body: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+      ],
+    });
+    // console.log(searchTerm);
+    // const data = await Post.findById({ _id: slug });
+    res.render("search", {
+      data,
+      locals,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = {
+  createPost,
+  readOnePost,
+  readPost,
+  putPost,
+  deletePost,
+  nextPage,
+  searchPost,
+};
