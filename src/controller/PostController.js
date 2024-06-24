@@ -1,5 +1,34 @@
 const Post = require("../models/Post");
 
+const getHomepage = async (req, res) => {
+  try {
+    const locals = {
+      title: "News Portal",
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    let perPage = 8;
+    let page = req.query.page || 1;
+
+    const data = await Post.aggregate([{ $sort: { createAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+    const countPage = await Post.countDocuments();
+    const nextPage = parseInt(page) + 1;
+    const hasNextPage = nextPage <= Math.ceil(countPage / perPage);
+
+    res.render("index", {
+      locals,
+      data,
+      current: page,
+      nextPage: hasNextPage ? nextPage : null,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
 const readPost = async (req, res, next) => {
   try {
     const data = await Post.find();
@@ -157,4 +186,5 @@ module.exports = {
   deletePost,
   nextPage,
   searchPost,
+  getHomepage,
 };

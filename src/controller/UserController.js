@@ -30,4 +30,17 @@ const readOneUser = async (req, res, next) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 };
-module.exports = { readUser, readOneUser };
+
+const getAbout = async (req, res) => {
+  try {
+    const locals = {
+      title: "About",
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    res.render("about", { locals });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Interval Server Error" });
+  }
+};
+module.exports = { readUser, readOneUser, getAbout };

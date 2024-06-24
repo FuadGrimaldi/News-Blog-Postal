@@ -4,6 +4,8 @@ const postController = require("../controller/PostController");
 const registrasiController = require("../controller/RegistrasiController");
 const userController = require("../controller/UserController");
 const loginController = require("../controller/LoginContoller");
+
+router.get("/", postController.getHomepage);
 // Post
 router.post("/add-post", postController.createPost);
 router.get("/dashboard", postController.readPost);
@@ -19,5 +21,6 @@ router.post("/login", loginController.login);
 
 // User
 router.get("/user", userController.readUser);
+router.get("/about", userController.getAbout);
 // router.get("/profile", userController.readOneUser);
 module.exports = router;
