@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const formatDate = require("../utils/dateFormatter");
 
 const getHomepage = async (req, res) => {
   try {
@@ -16,6 +17,11 @@ const getHomepage = async (req, res) => {
     const countPage = await Post.countDocuments();
     const nextPage = parseInt(page) + 1;
     const hasNextPage = nextPage <= Math.ceil(countPage / perPage);
+
+    // Format the date before rendering
+    data.forEach((post) => {
+      post.formattedDate = formatDate(post.createAt);
+    });
 
     res.render("index", {
       locals,
