@@ -17,7 +17,7 @@ function formatDate(date) {
   const month = months[date.getMonth()];
   const year = date.getFullYear();
 
-  return `${date} ${month} ${year}`;
+  return `${day} ${month} ${year}`;
 }
 
 module.exports = formatDate;
