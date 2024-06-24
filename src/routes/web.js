@@ -19,6 +19,7 @@ router.post("/registrasi", registrasiController.registrasi);
 
 // Login
 router.post("/login", loginController.login);
+router.get("/login", loginController.getLoginPage);
 
 // User
 router.get("/user", userController.readUser);

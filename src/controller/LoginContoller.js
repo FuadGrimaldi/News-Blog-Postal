@@ -3,6 +3,18 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
 
+const getLoginPage = async (req, res) => {
+  try {
+    const locals = {
+      title: "Login",
+    };
+    res.render("login", { locals });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ nmessage: "Internal Server Error" });
+  }
+};
+
 const login = async (req, res, next) => {
   try {
     const username = req.body.username;
@@ -38,4 +50,4 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = { login };
+module.exports = { login, getLoginPage };
