@@ -39,11 +39,7 @@ const getHomepage = async (req, res) => {
 const readPost = async (req, res, next) => {
   try {
     const data = await Post.find();
-    res.json({
-      status: 200,
-      message: "Get All Success",
-      data: data,
-    });
+    res.status(200).send({ message: "Success" });
     next();
   } catch (error) {
     console.log(error);
@@ -55,11 +51,11 @@ const readOnePost = async (req, res, next) => {
   try {
     let slug = req.params.id;
     const data = await Post.findById({ _id: slug });
-    res.json({
-      status: 200,
-      message: "Success",
-      data: data,
-    });
+    const locals = {
+      title: `${data.title}`,
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    res.status(200).send({ message: "Success" });
     next();
   } catch (error) {
     console.log(error);
@@ -158,32 +154,6 @@ const nextPage = async (req, res) => {
     console.log(error);
   }
 };
-const searchPost = async (req, res, next) => {
-  try {
-    const locals = {
-      title: "search",
-      description: "Simple blog created with NodeJS, Express & MongoDB ",
-    };
-    let searchTerm = req.body.searchTerm;
-    const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g, "");
-    const data = await Post.find({
-      $or: [
-        { author: { $regex: new RegExp(searchNoSpecialChar, "i") } },
-        { title: { $regex: new RegExp(searchNoSpecialChar, "i") } },
-        { body: { $regex: new RegExp(searchNoSpecialChar, "i") } },
-      ],
-    });
-    // console.log(searchTerm);
-    // const data = await Post.findById({ _id: slug });
-    res.render("search", {
-      data,
-      locals,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ message: "Internal Server Error" });
-  }
-};
 
 module.exports = {
   createPost,
@@ -192,6 +162,5 @@ module.exports = {
   putPost,
   deletePost,
   nextPage,
-  searchPost,
   getHomepage,
 };

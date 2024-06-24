@@ -16,7 +16,7 @@ connectDb();
 const app = express();
 const port = 4000 || process.env.port;
 // Request API parsing data
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // Cookie & Session
 app.use(cookieParser());

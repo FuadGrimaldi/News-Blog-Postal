@@ -4,6 +4,7 @@ const postController = require("../controller/PostController");
 const registrasiController = require("../controller/RegistrasiController");
 const userController = require("../controller/UserController");
 const loginController = require("../controller/LoginContoller");
+const searchConttroller = require("../controller/searchController");
 
 router.get("/", postController.getHomepage);
 // Post
@@ -22,5 +23,7 @@ router.post("/login", loginController.login);
 // User
 router.get("/user", userController.readUser);
 router.get("/about", userController.getAbout);
+router.post("/search", searchConttroller.searchPost);
+router.get("/search", searchConttroller.getSearch);
 // router.get("/profile", userController.readOneUser);
 module.exports = router;
