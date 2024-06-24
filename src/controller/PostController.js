@@ -1,6 +1,6 @@
 const Post = require("../models/Post");
 const formatDate = require("../utils/dateFormatter");
-
+const truncatString = require("../utils/truncatString");
 const getHomepage = async (req, res) => {
   try {
     const locals = {
@@ -21,6 +21,7 @@ const getHomepage = async (req, res) => {
     // Format the date before rendering
     data.forEach((post) => {
       post.formattedDate = formatDate(post.createAt);
+      post.truncatStr = truncatString(post.body, 100);
     });
 
     res.render("index", {
