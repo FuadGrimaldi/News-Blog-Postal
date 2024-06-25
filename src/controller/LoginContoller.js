@@ -16,11 +16,10 @@ const getLoginPage = async (req, res) => {
   }
 };
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   try {
     const username = req.body.username;
     const password = req.body.password;
-    // const { username, password } = req.body;
     console.log(req.body);
     // Find user by username
     const accountUser = await Acc.findOne({ username });
@@ -29,12 +28,10 @@ const login = async (req, res, next) => {
     }
 
     // Compare passwords
-    const isValidPass = await bcrypt.compare(password, accountUser.password); // Fix typo in 'accountUser.password'
+    const isValidPass = await bcrypt.compare(password, accountUser.password);
     if (!isValidPass) {
       return res.status(401).send({ message: "Invalid Credentials" });
     }
-
-    // Generate JWT token
     const token = jwt.sign({ accId: accountUser._id }, jwtSecret);
 
     // // Send response
@@ -44,8 +41,8 @@ const login = async (req, res, next) => {
     //   token, // Include token in response
     // });
     res.cookie("token", token, { httpOnly: true });
-    req.session.username = User.name;
-    res.redirect("/userRegisted");
+    req.session.username = accountUser.name;
+    res.redirect("/dashboard");
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Internal Server Error" });

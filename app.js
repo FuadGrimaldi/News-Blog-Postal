@@ -49,9 +49,9 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
+// route API
 app.use("/", router);
 
 app.listen(port, () => {
   console.log(`App Listing On Port: 4000`);
 });
-// route API

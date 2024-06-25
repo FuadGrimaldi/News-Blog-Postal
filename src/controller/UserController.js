@@ -1,6 +1,7 @@
 const User = require("../models/User");
+// const userRegisted = "../views/layouts/userRegisted";
 
-const readUser = async (req, res, next) => {
+const readUser = async (req, res) => {
   try {
     const user = await User.find();
     res.json({
@@ -15,7 +16,7 @@ const readUser = async (req, res, next) => {
   }
 };
 
-const readOneUser = async (req, res, next) => {
+const readOneUser = async (req, res) => {
   try {
     let slug = req.params.id;
     const data = await User.findById({ _id: slug });
@@ -43,4 +44,18 @@ const getAbout = async (req, res) => {
     res.status(500).send({ message: "Interval Server Error" });
   }
 };
-module.exports = { readUser, readOneUser, getAbout };
+
+const getDashboardUser = async (req, res) => {
+  try {
+    const locals = {
+      title: "Dashboard",
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    const data = await User.find();
+    res.render("userRegisted/index", { locals, data });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+module.exports = { readUser, readOneUser, getAbout, getDashboardUser };
