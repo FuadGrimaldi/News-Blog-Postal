@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- mobile responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+
+    <!-- theme meta -->
+    <meta name="theme-name" content="galaxy" />
+
+    <!-- ** Plugins Needed for the Project ** -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="plugins/fontawesome/css/all.css" />
+
+    <!-- Main Stylesheet -->
+    <link href="css/style.css" rel="stylesheet" />
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="images/favicon.png" type="image/x-icon" />
+    <title><%=locals.title %></title>
+  </head>
+  <body>
+    <%-include('../partials/header.ejs') %>
+    <!-- START main-wrapper -->
+    <section class="d-flex">
+      <%-include('../partials/sidenav.ejs') %>
+      <div class="main-content">
+        <%-include('../partials/mobile-nav.ejs') %>
+        <div class="container py-4 my-5">
+          <%-include('../partials/search-form.ejs') %>
+          <main class="main"><%-body-%></main>
+        </div>
+        <%-include('../partials/footer.ejs') %>
+      </div>
+    </section>
+    <!-- All JS Files -->
+    <script src="plugins/jQuery/jquery.min.js"></script>
+    <script src="plugins/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Main Script -->
+    <script src="js/script.js"></script>
+  </body>
+</html>

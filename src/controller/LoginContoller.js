@@ -1,4 +1,5 @@
 const Acc = require("../models/Account");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
@@ -20,7 +21,7 @@ const login = async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     // const { username, password } = req.body;
-    // console.log(req.body);
+    console.log(req.body);
     // Find user by username
     const accountUser = await Acc.findOne({ username });
     if (!accountUser) {
@@ -36,14 +37,15 @@ const login = async (req, res, next) => {
     // Generate JWT token
     const token = jwt.sign({ accId: accountUser._id }, jwtSecret);
 
-    // Send response
-    res.json({
-      status: 200,
-      message: "Success",
-      token, // Include token in response
-    });
-
-    next(); // Call the next middleware if needed
+    // // Send response
+    // res.json({
+    //   status: 200,
+    //   message: "Success",
+    //   token, // Include token in response
+    // });
+    res.cookie("token", token, { httpOnly: true });
+    req.session.username = User.name;
+    res.redirect("/userRegisted");
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Internal Server Error" });
