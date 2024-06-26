@@ -17,11 +17,14 @@ router.put("/edit-post/:id", postController.putPost);
 router.delete("/delete-post/:id", postController.deletePost);
 
 // Regis
-router.post("/registrasi", registrasiController.registrasi);
 
 // Login
 router.post("/login", loginController.login);
 router.get("/login", loginController.getLoginPage);
+
+// Register
+router.post("/register", registrasiController.registrasi);
+router.get("/register", registrasiController.getRegistedPage);
 
 // User
 router.get("/user", userController.readUser);

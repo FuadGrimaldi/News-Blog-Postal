@@ -2,61 +2,63 @@ const User = require("../models/User");
 const Acc = require("../models/Account");
 const bcrypt = require("bcrypt");
 
-const registrasi = async (req, res, next) => {
+const registrasi = async (req, res) => {
   try {
-    const userData = req.body.user;
-    const accountData = req.body.account;
+    const name = req.body.rname;
+    const username = req.body.rusername;
+    const password = req.body.rpassword;
 
     // Ensure all required fields are provided
-    if (
-      !userData.name ||
-      !userData.gender ||
-      !userData.email ||
-      !userData.contact ||
-      !userData.job
-    ) {
+    if (!name || !username || !password) {
       return res.status(400).send({ message: "All user fields are required" });
     }
 
-    if (!accountData.username || !accountData.password) {
+    if (!username || !password) {
       return res
         .status(400)
         .send({ message: "Username and password are required" });
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(accountData.password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
     const newUser = new User({
-      name: userData.name,
-      gender: userData.gender,
-      email: userData.email,
-      contact: userData.contact,
-      job: userData.job,
+      name: name,
+      gender: "",
+      email: "",
+      contact: "",
+      job: "",
     });
     const savedUser = await User.create(newUser);
 
     // Create new account
     const newAcc = new Acc({
-      username: accountData.username,
+      username: username,
       password: hashedPassword,
       userId: savedUser._id,
     });
     const savedAcc = await Acc.create(newAcc);
 
-    res.status(200).send({
-      message: "Success",
-      data: {
-        User: savedUser,
-        Account: savedAcc,
-      },
-    });
-    next();
+    res.status(200).send({ message: "Successfully created an account" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 };
 
-module.exports = { registrasi };
+const getRegistedPage = async (req, res) => {
+  try {
+    // get logic
+    const locals = {
+      title: "Dashboard",
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    res.render("register", { locals });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = { registrasi, getRegistedPage };
