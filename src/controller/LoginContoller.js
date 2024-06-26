@@ -41,6 +41,7 @@ const login = async (req, res) => {
     //   token, // Include token in response
     // });
     res.cookie("token", token, { httpOnly: true });
+    req.session.successMessage = "Login Successful!";
     req.session.username = accountUser.name;
     res.redirect("/dashboard");
   } catch (error) {

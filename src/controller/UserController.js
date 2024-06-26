@@ -52,7 +52,9 @@ const getDashboardUser = async (req, res) => {
       description: "Simple portal created with NodeJS, Express & MongoDB ",
     };
     const data = await User.find();
-    res.render("userRegisted/index", { locals, data });
+    const successMessage = req.session.successMessage;
+    delete req.session.successMessage;
+    res.render("userRegisted/index", { locals, data, successMessage });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });

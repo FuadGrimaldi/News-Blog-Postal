@@ -5,6 +5,7 @@ const registrasiController = require("../controller/RegistrasiController");
 const userController = require("../controller/UserController");
 const loginController = require("../controller/LoginContoller");
 const searchConttroller = require("../controller/searchController");
+const logoutController = require("../controller/logoutController");
 const authMidelware = require("../middleware/middleware");
 const setLayout = require("../utils/setLayout");
 
@@ -26,19 +27,23 @@ router.get("/login", loginController.getLoginPage);
 router.post("/register", registrasiController.registrasi);
 router.get("/register", registrasiController.getRegistedPage);
 
-// User
+// logout
+router.get("/logout", logoutController.logout);
+
+// Reader
 router.get("/user", userController.readUser);
 router.get("/about", userController.getAbout);
 router.post("/search", searchConttroller.searchPost);
 router.get("/search", searchConttroller.getSearch);
 // router.get("/profile", userController.readOneUser);
 
-// User Registed
+// User
 router.get(
   "/dashboard",
   authMidelware,
   setLayout("layouts/user"),
   userController.getDashboardUser
 );
+router.get("/profile", authMidelware, userController.getAbout);
 
 module.exports = router;
