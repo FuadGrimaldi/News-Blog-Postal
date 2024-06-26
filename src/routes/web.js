@@ -7,6 +7,7 @@ const loginController = require("../controller/LoginContoller");
 const searchConttroller = require("../controller/searchController");
 const authMidelware = require("../middleware/middleware");
 const setLayout = require("../utils/setLayout");
+
 router.get("/", postController.getHomepage);
 // Post
 router.post("/add-post", postController.createPost);
@@ -33,7 +34,7 @@ router.get("/search", searchConttroller.getSearch);
 router.get(
   "/dashboard",
   authMidelware,
-  setLayout("layouts/userRegisted"),
+  setLayout("layouts/user"),
   userController.getDashboardUser
 );
 

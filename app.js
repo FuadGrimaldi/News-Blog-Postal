@@ -36,7 +36,7 @@ app.use(
 app.use(express.static("public"));
 // app.use("/admin", express.static("public"));
 app.use(expressLayout);
-app.set("layout", "./layouts/user");
+app.set("layout", "./layouts/reader");
 app.set("view engine", "ejs");
 
 // Origin CORS
