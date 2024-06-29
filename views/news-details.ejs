@@ -1,0 +1,39 @@
+<% if(data) { %>
+<div class="row justify-content-between">
+  <div class="col-lg-10">
+    <img class="img-fluid" src="images/post/post-single/01.png" alt="" />
+    <h1 class="text-white add-letter-space mt-4"><%= data.title %></h1>
+    <ul class="post-meta mt-3 mb-4">
+      <li class="d-inline-block mr-3">
+        <span class="fas fa-clock text-primary"></span>
+        <a class="ml-1" href="#"><%= date %></a>
+      </li>
+      <li class="d-inline-block">
+        <span class="fas fa-list-alt text-primary"></span>
+        <a class="ml-1" href="#"><%= data.category %></a>
+      </li>
+    </ul>
+
+    <p><%= data.body %></p>
+    <!-- <p>
+      Phasellus enim sodales congue varius arcu et, pulvinar ultrices. Faucibus
+      nulla massa erat ut. Egestas integer pharetra proin pellentesque tellus
+      quis pulvinar mauris. Sed quisque pellentesque platea vel. Proin felis
+      tellus nunc risus tortor, nibh. Vulputate mauris fermentum tincidunt diam
+      sed. Vel interdum nisl, pellentesque ante consectetur. At praesent lorem
+      placerat nibh nunc. Massa lectus id et amet quam venenatis, in mus. Arcu
+      cras risus est porttitor tincidunt posuere feugiat. Sem velit ornare id
+      duis Amet nullam eget mus diam nisl, vel. Sed at id quam bibendum lacus
+      felis. Porta arcu, nunc ultricies
+    </p> -->
+
+    <div class="blockquote bg-dark my-5">
+      <p class="blockquote-text pl-2">
+        A wise girls knows her limit to touch sky.Rpelat sapiesd praesentium
+        adipisci.The question me an idea so asered
+      </p>
+      <span class="blockquote-footer text-white h4 mt-3">James Hopkins</span>
+    </div>
+  </div>
+</div>
+<% } %>

@@ -1,3 +1,4 @@
+const { create } = require("connect-mongo");
 const Post = require("../models/Post");
 const formatDate = require("../utils/dateFormatter");
 const truncatString = require("../utils/truncatString");
@@ -50,16 +51,16 @@ const readPost = async (req, res, next) => {
   }
 };
 
-const readOnePost = async (req, res, next) => {
+const readOnePost = async (req, res) => {
   try {
     let slug = req.params.id;
     const data = await Post.findById({ _id: slug });
     const locals = {
-      title: `${data.title}`,
+      title: `News: ${data.title}`,
       description: "Simple portal created with NodeJS, Express & MongoDB ",
     };
-    res.status(200).send({ message: "Success" });
-    next();
+    const date = formatDate(data.createAt);
+    res.render("news-details", { locals, data, date });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
@@ -132,7 +133,7 @@ const createPost = async (req, res, next) => {
 const nextPage = async (req, res) => {
   try {
     const locals = {
-      title: "NodeJS Blog",
+      title: "Next",
       description: "Simple blog created with NodeJS, Express & MongoDB ",
     };
     let perPage = 8;

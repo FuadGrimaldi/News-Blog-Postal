@@ -34,6 +34,7 @@ app.use(
 
 // Templating layout
 app.use(express.static("public"));
+app.use("/post", express.static("public"));
 // app.use("/admin", express.static("public"));
 app.use(expressLayout);
 app.set("layout", "./layouts/reader");
