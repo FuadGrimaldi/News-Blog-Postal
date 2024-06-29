@@ -33,6 +33,7 @@ router.get("/logout", logoutController.logout);
 // Reader
 router.get("/user", userController.readUser);
 router.get("/about", userController.getAbout);
+router.get("/contact", userController.getContact);
 router.post("/search", searchConttroller.searchPost);
 router.get("/search", searchConttroller.getSearch);
 // router.get("/profile", userController.readOneUser);

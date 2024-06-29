@@ -90,4 +90,23 @@ const getDashboardUser = async (req, res) => {
   }
 };
 
-module.exports = { readUser, readOneUser, getAbout, getDashboardUser };
+const getContact = async (req, res) => {
+  const locals = {
+    title: `Contact Us`,
+    description: "Simple portal created with NodeJS, Express & MongoDB ",
+  };
+  try {
+    res.render("contact", { locals });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = {
+  readUser,
+  readOneUser,
+  getAbout,
+  getDashboardUser,
+  getContact,
+};
