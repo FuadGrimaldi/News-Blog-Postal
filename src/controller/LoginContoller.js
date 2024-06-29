@@ -9,7 +9,9 @@ const getLoginPage = async (req, res) => {
     const locals = {
       title: "Login",
     };
-    res.render("login", { locals });
+    const successMessage = req.session.message;
+    delete req.session.message;
+    res.render("login", { locals, successMessage });
   } catch (error) {
     console.log(error);
     res.status(500).send({ nmessage: "Internal Server Error" });

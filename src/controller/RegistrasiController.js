@@ -41,7 +41,10 @@ const registrasi = async (req, res) => {
     });
     const savedAcc = await Acc.create(newAcc);
 
-    res.status(200).send({ message: "Successfully created an account" });
+    const Message = "Register Success";
+    req.session.message = Message;
+    res.redirect("/login");
+    // res.status(200).send({ message: "Successfully created an account" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
