@@ -44,6 +44,11 @@ router.get(
   setLayout("layouts/user"),
   userController.getDashboardUser
 );
-router.get("/profile", authMidelware, userController.getAbout);
+router.get(
+  "/profile",
+  authMidelware,
+  setLayout("layouts/user"),
+  userController.getAbout
+);
 
 module.exports = router;

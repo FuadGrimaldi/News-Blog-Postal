@@ -23,10 +23,13 @@ const getHomepage = async (req, res) => {
       post.formattedDate = formatDate(post.createAt);
       post.truncatStr = truncatString(post.body, 100);
     });
-
+    const successMessage = req.session.Message;
+    console.log(successMessage);
+    delete req.session.Message;
     res.render("index", {
       locals,
       data,
+      successMessage,
       current: page,
       nextPage: hasNextPage ? nextPage : null,
     });

@@ -20,7 +20,6 @@ const login = async (req, res) => {
   try {
     const username = req.body.username;
     const password = req.body.password;
-    console.log(req.body);
     // Find user by username
     const accountUser = await Acc.findOne({ username });
     if (!accountUser) {
@@ -33,16 +32,11 @@ const login = async (req, res) => {
       return res.status(401).send({ message: "Invalid Credentials" });
     }
     const token = jwt.sign({ accId: accountUser._id }, jwtSecret);
-
-    // // Send response
-    // res.json({
-    //   status: 200,
-    //   message: "Success",
-    //   token, // Include token in response
-    // });
     res.cookie("token", token, { httpOnly: true });
-    req.session.successMessage = "Login Successful!";
-    req.session.username = accountUser.name;
+    const message = "Login Successfull!";
+    req.session.Message = message;
+
+    req.session.userId = accountUser.userId;
     res.redirect("/dashboard");
   } catch (error) {
     console.error(error);

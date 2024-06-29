@@ -6,15 +6,19 @@ const UserSchema = new Schema({
     type: String,
     require: true,
   },
-  gender: {
-    type: String,
-    require: true,
-  },
   email: {
     type: String,
     require: true,
   },
+  gender: {
+    type: String,
+    require: true,
+  },
   contact: {
+    type: String,
+    require: true,
+  },
+  desc: {
     type: String,
     require: true,
   },

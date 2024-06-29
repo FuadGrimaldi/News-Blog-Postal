@@ -44,20 +44,50 @@ const getAbout = async (req, res) => {
     res.status(500).send({ message: "Interval Server Error" });
   }
 };
-
 const getDashboardUser = async (req, res) => {
   try {
+    let warningMessage;
+    let name;
     const locals = {
       title: "Dashboard",
       description: "Simple portal created with NodeJS, Express & MongoDB ",
     };
-    const data = await User.find();
-    const successMessage = req.session.successMessage;
-    delete req.session.successMessage;
-    res.render("userRegisted/index", { locals, data, successMessage });
+
+    let data = [];
+    try {
+      data = await User.find();
+    } catch (error) {
+      console.log(error);
+    }
+
+    const sessionUserId = req.session.userId;
+    const successMessage = req.session.Message;
+
+    // Delete req.session.Message if it exists
+    if (req.session.Message !== undefined) {
+      delete req.session.Message;
+    }
+
+    data.forEach((user) => {
+      if (user._id == sessionUserId) {
+        name = user.name;
+        if (!user.job || !user.contact || !user.gender || !user.email) {
+          warningMessage = "Please complete the profile";
+        }
+      }
+    });
+
+    res.render("userRegisted/index", {
+      locals,
+      data,
+      name,
+      successMessage,
+      warningMessage,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
   }
 };
+
 module.exports = { readUser, readOneUser, getAbout, getDashboardUser };
