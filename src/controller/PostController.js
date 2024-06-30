@@ -2,10 +2,13 @@ const { create } = require("connect-mongo");
 const Post = require("../models/Post");
 const formatDate = require("../utils/dateFormatter");
 const truncatString = require("../utils/truncatString");
+const User = require("../models/User");
+const { name } = require("ejs");
+
 const getHomepage = async (req, res) => {
   try {
     const locals = {
-      title: "News Portal",
+      title: "Sportman News",
       description: "Simple portal created with NodeJS, Express & MongoDB ",
     };
     let perPage = 8;
@@ -59,8 +62,25 @@ const readOnePost = async (req, res) => {
       title: `News: ${data.title}`,
       description: "Simple portal created with NodeJS, Express & MongoDB ",
     };
+    // console.log(data);
     const date = formatDate(data.createAt);
     res.render("news-details", { locals, data, date });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+const readOnePostUser = async (req, res) => {
+  try {
+    let slug = req.params.id;
+    const data = await Post.findById({ _id: slug });
+    const locals = {
+      title: `News: ${data.title}`,
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    // console.log(data);
+    const date = formatDate(data.createAt);
+    res.render("user/news-details", { locals, data, date });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
@@ -103,30 +123,55 @@ const putPost = async (req, res, next) => {
   }
 };
 
-const createPost = async (req, res, next) => {
+const createPost = async (req, res) => {
   try {
     const author = req.body.author;
     const title = req.body.title;
     const body = req.body.body;
     const feature = req.body.feature;
     const category = req.body.category;
+    const data = await User.find();
+    const sessionUserId = req.session.userId;
+    let name;
+    data.forEach((user) => {
+      if (user._id == sessionUserId) {
+        userName = user.name;
+      }
+    });
     const newPost = new Post({
       author: author,
       title: title,
       body: body,
       feature: feature,
       category: category,
+      userId: sessionUserId,
     });
-    await newPost.save();
-    res.json({
-      status: 200,
-      message: "Create Success",
-      data: newPost,
-    });
-    next();
+    await Post.create(newPost);
+    res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+const getCreatePostPage = async (req, res) => {
+  try {
+    const locals = {
+      title: "Add Post",
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    const data = await User.find();
+    let userName;
+    const sessionUserId = req.session.userId;
+    data.forEach((user) => {
+      if (user._id == sessionUserId) {
+        userName = user.name;
+      }
+    });
+    res.render("user/add-post", { locals, userName });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };
 
@@ -161,7 +206,9 @@ const nextPage = async (req, res) => {
 
 module.exports = {
   createPost,
+  getCreatePostPage,
   readOnePost,
+  readOnePostUser,
   readPost,
   putPost,
   deletePost,

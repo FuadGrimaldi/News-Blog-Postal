@@ -21,6 +21,10 @@ const PostSchema = new Schema({
     type: String,
     require: true,
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    require: true,
+  },
   createAt: {
     type: Date,
     default: Date.now,

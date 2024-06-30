@@ -1,5 +1,7 @@
 const User = require("../models/User");
-// const userRegisted = "../views/layouts/userRegisted";
+const Post = require("../models/Post");
+const formatDate = require("../utils/dateFormatter");
+const truncatString = require("../utils/truncatString");
 
 const readUser = async (req, res) => {
   try {
@@ -52,16 +54,15 @@ const getDashboardUser = async (req, res) => {
       title: "Dashboard",
       description: "Simple portal created with NodeJS, Express & MongoDB ",
     };
-
-    let data = [];
-    try {
-      data = await User.find();
-    } catch (error) {
-      console.log(error);
-    }
-
     const sessionUserId = req.session.userId;
     const successMessage = req.session.Message;
+
+    const data = await User.find();
+    const dataPost = await Post.find();
+    dataPost.forEach((post) => {
+      post.formattedDate = formatDate(post.createAt);
+      post.truncatStr = truncatString(post.body, 100);
+    });
 
     // Delete req.session.Message if it exists
     if (req.session.Message !== undefined) {
@@ -77,10 +78,12 @@ const getDashboardUser = async (req, res) => {
       }
     });
 
-    res.render("userRegisted/index", {
+    res.render("user/index", {
       locals,
       data,
+      dataPost,
       name,
+      sessionUserId,
       successMessage,
       warningMessage,
     });

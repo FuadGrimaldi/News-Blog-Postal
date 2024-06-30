@@ -10,12 +10,6 @@ const authMidelware = require("../middleware/middleware");
 const setLayout = require("../utils/setLayout");
 
 router.get("/", postController.getHomepage);
-// Post
-router.post("/add-post", postController.createPost);
-// router.get("/dashboard", postController.readPost);
-router.get("/post/:id", postController.readOnePost);
-router.put("/edit-post/:id", postController.putPost);
-router.delete("/delete-post/:id", postController.deletePost);
 
 // Regis
 
@@ -36,6 +30,7 @@ router.get("/about", userController.getAbout);
 router.get("/contact", userController.getContact);
 router.post("/search", searchConttroller.searchPost);
 router.get("/search", searchConttroller.getSearch);
+router.get("/post/:id", postController.readOnePost);
 // router.get("/profile", userController.readOneUser);
 
 // User
@@ -52,4 +47,21 @@ router.get(
   userController.getAbout
 );
 
+// Post
+router.post("/add-post", postController.createPost);
+router.get(
+  "/add-post",
+  authMidelware,
+  setLayout("layouts/user"),
+  postController.getCreatePostPage
+);
+router.get(
+  "/user-post/:id",
+  authMidelware,
+  setLayout("layouts/user"),
+  postController.readOnePostUser
+);
+// router.get("/dashboard", postController.readPost);
+router.put("/edit-post/:id", postController.putPost);
+router.delete("/delete-post/:id", postController.deletePost);
 module.exports = router;

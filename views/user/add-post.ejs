@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-md-10">
+    <div class="contact-form bg-dark">
+      <h1 class="text-white add-letter-space mb-5">New Post!</h1>
+      <form method="POST" class="needs-validation" action="/add-post">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="author" class="text-black-300">Author</label>
+              <input
+                type="text"
+                id="author"
+                name="author"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                value="<%= userName %>"
+                readonly
+              />
+              <p class="invalid-feedback">Title is required!</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="title" class="text-black-300">Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                placeholder="Messi Pensiun di Umur 90 Tahun"
+                required
+              />
+              <p class="invalid-feedback">Title is required!</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="category" class="text-black-300">Category</label>
+              <label class="text-black-300">Gender</label>
+              <select class="d-block w-100" name="category" required>
+                <option>Choose Category</option>
+                <option value="Football">Football</option>
+                <option value="Vollyball">Vollyball</option>
+                <option value="Basketball">Basketball</option>
+                <option value="Badminton">Badminton</option>
+                <option value="Swimming">Swimming</option>
+                <option value="Tennis">Tennis</option>
+                <option value="Boxing">Boxing</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label class="text-black-300">Featured</label>
+              <select class="d-block w-100" name="feature" required>
+                <option>Choose Featured News</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-group mb-5">
+              <label for="body" class="text-black-300">Content</label>
+              <textarea
+                name="body"
+                id="body"
+                cols="70"
+                rows="6"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                required
+              ></textarea>
+              <p class="invalid-feedback">Body content is required!</p>
+            </div>
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-sm btn-primary me-n2">
+                Add Post<img src="images/arrow-right.png" alt="" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
