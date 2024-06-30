@@ -1,76 +1,70 @@
-<div id="main-wrapper" class="container">
-  <div class="row justify-content">
-    <div class="col-xl-12">
-      <div class="card border-0 custom-card">
-        <div class="card-body p-0">
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="pt-1">
-                <h6 class="h5 mb-0">Register Here!</h6>
-                <p class="text-muted mt-2 mb-3">
-                  Enter your email address and password to access admin panel.
-                </p>
-
-                <form action="/register" method="post">
-                  <div class="form-group">
-                    <label for="InputName">Name</label>
-                    <input
-                      name="rname"
-                      type="text"
-                      class="form-control"
-                      id="InputName"
-                      required
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="InputUsername">Username</label>
-                    <input
-                      name="rusername"
-                      type="text"
-                      class="form-control"
-                      id="InputUsername"
-                      required
-                    />
-                  </div>
-                  <div class="form-group mb-5">
-                    <label for="InputPassword1">Password</label>
-                    <input
-                      name="rpassword"
-                      type="password"
-                      class="form-control"
-                      id="InputPassword1"
-                      required
-                    />
-                  </div>
-                  <button type="submit" class="btn btn-primary">
-                    Register
-                  </button>
-                </form>
-              </div>
-            </div>
-
-            <div class="col-lg-6 d-none d-lg-inline-block">
-              <div class="account-block rounded-right">
-                <div class="overlay rounded-right"></div>
-                <div class="account-testimonial">
-                  <h4 class="text-white mb-4">This beautiful theme yours!</h4>
-                  <p class="lead text-white">
-                    "Best investment i made for a long time. Can only recommend
-                    it for other users."
-                  </p>
-                  <p>- Admin User</p>
-                </div>
-              </div>
+<div class="row">
+  <div class="col-md-10">
+    <div class="contact-form bg-dark">
+      <h1 class="text-white add-letter-space mb-5">Register Here!</h1>
+      <form method="POST" class="needs-validation" action="/register">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="Name" class="text-black-300">Name</label>
+              <input
+                type="text"
+                id="rname"
+                name="rname"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                placeholder="Fuad Grimaldi"
+                required
+              />
+              <p class="invalid-feedback">Your name is required!</p>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="Username" class="text-black-300">Username</label>
+              <input
+                type="text"
+                name="rusername"
+                id="rusername"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                placeholder="baba"
+                required
+              />
+              <p class="invalid-feedback">Your username is required!</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="Password" class="text-black-300">Password</label>
+              <input
+                type="password"
+                name="rpassword"
+                id="password"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                placeholder="12312@1dsd"
+                required
+              />
+              <p class="invalid-feedback">Your password is required!</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label class="text-black-300">Gender</label>
+              <select class="d-block w-100" name="gender" required>
+                <option value="Pria">Pria</option>
+                <option value="Wanita">Wanita</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-sm btn-primary me-n2">
+                Register<img src="images/arrow-right.png" alt="" />
+              </button>
+            </div>
+            <div class="form-group mb-5"></div>
+          </div>
         </div>
-        <!-- end card-body -->
-      </div>
-      <!-- end card -->
-
-      <!-- end row -->
+      </form>
     </div>
-    <!-- end col -->
   </div>
-  <!-- Row -->
 </div>

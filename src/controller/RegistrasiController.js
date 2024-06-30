@@ -7,9 +7,10 @@ const registrasi = async (req, res) => {
     const name = req.body.rname;
     const username = req.body.rusername;
     const password = req.body.rpassword;
+    const gender = req.body.gender;
 
     // Ensure all required fields are provided
-    if (!name || !username || !password) {
+    if (!name || !username || !password || !gender) {
       return res.status(400).send({ message: "All user fields are required" });
     }
 
@@ -25,7 +26,7 @@ const registrasi = async (req, res) => {
     // Create new user
     const newUser = new User({
       name: name,
-      gender: "",
+      gender: gender,
       email: "",
       desc: "",
       contact: "",
