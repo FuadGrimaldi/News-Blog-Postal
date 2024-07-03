@@ -10,12 +10,20 @@ const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const methodOverride = require("method-override");
-
+const upload = require("./src/controller/UploadController");
+const multer = require("multer");
 // Connection Database MongoDB
 connectDb();
 // Server
 const app = express();
 const port = 4000 || process.env.port;
+// Upload img
+app.use(
+  multer({
+    storage: upload.profileStorage,
+    fileFilter: upload.fileFilter,
+  }).single("avatar")
+);
 // Request API parsing data
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

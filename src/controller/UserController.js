@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const mongoose = require("mongoose");
 const formatDate = require("../utils/dateFormatter");
 const truncatString = require("../utils/truncatString");
 
@@ -46,6 +47,39 @@ const getAbout = async (req, res) => {
     res.status(500).send({ message: "Interval Server Error" });
   }
 };
+const getProfile = async (req, res) => {
+  try {
+    let warningMessage;
+    const sessionUserId = req.session.userId;
+    // console.log(sessionUserId);
+    const locals = {
+      title: "Profile",
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    if (!mongoose.Types.ObjectId.isValid(sessionUserId)) {
+      return res.status(400).send({ message: "Invalid ID format" });
+    }
+
+    const data = await User.findOne({ _id: sessionUserId });
+    if (
+      !data.job ||
+      !data.contact ||
+      !data.gender ||
+      !data.email ||
+      !data.address
+    ) {
+      warningMessage = "Please complete the profile";
+    }
+    // console.log(data);
+    if (!data) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    res.render("user/profile", { locals, data, warningMessage });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
 const getDashboardUser = async (req, res) => {
   try {
     let warningMessage;
@@ -72,7 +106,13 @@ const getDashboardUser = async (req, res) => {
     data.forEach((user) => {
       if (user._id == sessionUserId) {
         name = user.name;
-        if (!user.job || !user.contact || !user.gender || !user.email) {
+        if (
+          !user.job ||
+          !user.contact ||
+          !user.gender ||
+          !user.email ||
+          !user.address
+        ) {
           warningMessage = "Please complete the profile";
         }
       }
@@ -109,6 +149,7 @@ const getContact = async (req, res) => {
 module.exports = {
   readUser,
   readOneUser,
+  getProfile,
   getAbout,
   getDashboardUser,
   getContact,

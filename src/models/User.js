@@ -6,6 +6,10 @@ const UserSchema = new Schema({
     type: String,
     require: true,
   },
+  address: {
+    type: String,
+    require: true,
+  },
   email: {
     type: String,
     require: true,
@@ -15,6 +19,10 @@ const UserSchema = new Schema({
     require: true,
   },
   contact: {
+    type: String,
+    require: true,
+  },
+  avatar: {
     type: String,
     require: true,
   },

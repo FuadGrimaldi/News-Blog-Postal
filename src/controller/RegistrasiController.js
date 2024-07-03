@@ -28,7 +28,9 @@ const registrasi = async (req, res) => {
       name: name,
       gender: gender,
       email: "",
+      address: "",
       desc: "",
+      avatar: "",
       contact: "",
       job: "",
     });

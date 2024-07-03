@@ -44,7 +44,7 @@ router.get(
   "/profile",
   authMidelware,
   setLayout("layouts/user"),
-  userController.getAbout
+  userController.getProfile
 );
 
 // Post
