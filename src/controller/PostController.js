@@ -28,7 +28,6 @@ const getHomepage = async (req, res) => {
       post.truncatStr = truncatString(post.body, 100);
     });
     const successMessage = req.session.Message;
-    console.log(successMessage);
     delete req.session.Message;
     res.render("index", {
       locals,
@@ -78,7 +77,6 @@ const readOnePostUser = async (req, res) => {
       title: `News: ${data.title}`,
       description: "Simple portal created with NodeJS, Express & MongoDB ",
     };
-    // console.log(data);
     const date = formatDate(data.createAt);
     res.render("user/news-details", { locals, data, date });
   } catch (error) {
@@ -87,24 +85,23 @@ const readOnePostUser = async (req, res) => {
   }
 };
 
-const deletePost = async (req, res, next) => {
+const deletePost = async (req, res) => {
   try {
-    let slug = req.params.id;
-    await Post.deleteOne({ _id: slug });
-    res.json({
-      status: 200,
-      message: "Success",
-    });
-    next();
+    await Post.deleteOne({ _id: req.params.id });
+    const message = "Delete Successfull!";
+    req.session.Message = message;
+    res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };
 
-const putPost = async (req, res, next) => {
+const putPost = async (req, res) => {
   try {
     let slug = req.params.id;
-    const data = await Post.findByIdAndUpdate(slug, {
+    // const data =
+    await Post.findByIdAndUpdate(slug, {
       author: req.body.author,
       title: req.body.title,
       body: req.body.body,
@@ -112,14 +109,26 @@ const putPost = async (req, res, next) => {
       category: req.body.category,
       updateAt: Date.now(),
     });
-    res.json({
-      status: 200,
-      message: "Success",
-      data: data,
-    });
-    next();
+    const message = "Update Successfull!";
+    req.session.Message = message;
+    res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
+  }
+};
+
+const getPutPost = async (req, res) => {
+  try {
+    const slug = req.params.id;
+    const locals = {
+      title: "Edit Post",
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    const data = await Post.findOne({ _id: slug });
+    res.render("user/edit-post", { locals, data });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };
 
@@ -147,6 +156,8 @@ const createPost = async (req, res) => {
       userId: sessionUserId,
     });
     await Post.create(newPost);
+    const message = "Add Post Successfull!";
+    req.session.Message = message;
     res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
@@ -211,6 +222,7 @@ module.exports = {
   readOnePostUser,
   readPost,
   putPost,
+  getPutPost,
   deletePost,
   nextPage,
   getHomepage,

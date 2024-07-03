@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
+const methodOverride = require("method-override");
 
 // Connection Database MongoDB
 connectDb();
@@ -32,10 +33,14 @@ app.use(
   })
 );
 
+// override with POST having ?_method=PUT
+app.use(methodOverride("_method"));
+
 // Templating layout
 app.use(express.static("public"));
 app.use("/post", express.static("public"));
 app.use("/user-post", express.static("public"));
+app.use("/edit-post", express.static("public"));
 // app.use("/admin", express.static("public"));
 app.use(expressLayout);
 app.set("layout", "./layouts/reader");

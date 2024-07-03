@@ -62,6 +62,22 @@ router.get(
   postController.readOnePostUser
 );
 // router.get("/dashboard", postController.readPost);
-router.put("/edit-post/:id", postController.putPost);
-router.delete("/delete-post/:id", postController.deletePost);
+router.put(
+  "/edit-post/:id",
+  authMidelware,
+  setLayout("layouts/user"),
+  postController.putPost
+);
+router.get(
+  "/edit-post/:id",
+  authMidelware,
+  setLayout("layouts/user"),
+  postController.getPutPost
+);
+router.delete(
+  "/delete-post/:id",
+  authMidelware,
+  setLayout("layouts/user"),
+  postController.deletePost
+);
 module.exports = router;

@@ -30,15 +30,22 @@
           </li>
         </ul>
         <p class="card-text my-4"><%= post.truncatStr %></p>
-        <a href="/user-post/<%= post._id %>" class="btn btn-primary mr-3"
-          >Read More <img src="images/arrow-right.png" alt=""
-        /></a>
-        <a href="/user-post/<%= post._id %>" class="btn btn-primary mr-3">
-          Edit Post <i class="fas fa-edit"></i>
-        </a>
-        <a href="/user-post/<%= post._id %>" class="btn btn-primary">
-          Delete Post <i class="fas fa-trash"></i>
-        </a>
+        <div class="d-flex align-items-center">
+          <a href="/user-post/<%= post._id %>" class="btn btn-primary mr-3">
+            Read More <img src="images/arrow-right.png" alt="" />
+          </a>
+          <a href="/edit-post/<%= post._id %>" class="btn btn-primary mr-3">
+            Edit Post <i class="fas fa-edit"></i>
+          </a>
+          <form
+            action="/delete-post/<%= post._id %>?_method=DELETE"
+            method="post"
+          >
+            <button type="submit" class="btn btn-primary">
+              Delete Post <i class="fas fa-trash"></i>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
     <% } %> <%}); %>
