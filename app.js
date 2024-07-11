@@ -49,6 +49,7 @@ app.use(express.static("public"));
 app.use("/post", express.static("public"));
 app.use("/user-post", express.static("public"));
 app.use("/edit-post", express.static("public"));
+app.use("/profile", express.static("public"));
 // app.use("/admin", express.static("public"));
 app.use(expressLayout);
 app.set("layout", "./layouts/reader");

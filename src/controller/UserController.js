@@ -51,6 +51,8 @@ const getProfile = async (req, res) => {
   try {
     let warningMessage;
     const sessionUserId = req.session.userId;
+    const successMessage = req.session.message;
+    delete req.session.message;
     // console.log(sessionUserId);
     const locals = {
       title: "Profile",
@@ -74,7 +76,12 @@ const getProfile = async (req, res) => {
     if (!data) {
       return res.status(404).send({ message: "User not found" });
     }
-    res.render("user/profile", { locals, data, warningMessage });
+    res.render("user/profile", {
+      locals,
+      data,
+      warningMessage,
+      successMessage,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
@@ -146,11 +153,50 @@ const getContact = async (req, res) => {
   }
 };
 
+const getEditProfile = async (req, res) => {
+  try {
+    const sessionUserId = req.session.userId;
+    const locals = {
+      title: `edit profile`,
+      description: "Simple portal created with NodeJS, Express & MongoDB ",
+    };
+    const data = await User.findOne({ _id: sessionUserId });
+    res.render("user/edit-profile", { locals, data });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+const putProfile = async (req, res) => {
+  try {
+    const sessionUserId = req.session.userId;
+    await User.findByIdAndUpdate(sessionUserId, {
+      name: req.body.name,
+      address: req.body.address,
+      email: req.body.email,
+      contact: req.body.contact,
+      gender: req.body.gender,
+      avatar: req.file,
+      desc: req.body.desc,
+      job: req.body.job,
+      updateAt: Date.now(),
+    });
+    const message = "Update Profile Successfull!";
+    req.session.Message = message;
+    res.redirect("/profile");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   readUser,
   readOneUser,
   getProfile,
   getAbout,
   getDashboardUser,
+  getEditProfile,
   getContact,
+  putProfile,
 };

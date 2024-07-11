@@ -1,0 +1,122 @@
+<div class="row">
+  <div class="col-md-10">
+    <div class="contact-form bg-dark">
+      <h1 class="text-white add-letter-space mb-5">Edit Your Profile!</h1>
+      <form
+        method="POST"
+        class="needs-validation"
+        action="/edit-profile/<%= data._id %>?_method=PUT"
+      >
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="Name" class="text-black-300">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                value="<%= data.name %>"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="address" class="text-black-300">Address</label>
+              <input
+                type="text"
+                value="<%= data.address %>"
+                name="address"
+                id="address"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="contact" class="text-black-300">Contact</label>
+              <input
+                type="text"
+                value="<%= data.contact %>"
+                name="contact"
+                id="contact"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                placeholder="08324334232"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="email" class="text-black-300">Email</label>
+              <input
+                type="email"
+                value="<%= data.email %>"
+                name="email"
+                id="email"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+                placeholder="abobo@gmail.com"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label for="job" class="text-black-300">Job</label>
+              <input
+                value="<%= data.job %>"
+                type="text"
+                name="job"
+                id="job"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <label class="text-black-300">Gender</label>
+              <select class="d-block w-100" name="gender">
+                <option value="<%= data.gender %>"><%= data.gender %></option>
+                <option value="Pria">Pria</option>
+                <option value="Wanita">Wanita</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5">
+              <form
+                action="/profile"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <label for="image">Image</label>
+                <input type="file" name="avatar" />
+              </form>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-5"></div>
+          </div>
+          <div class="col-md">
+            <div class="form-group mb-5">
+              <label for="body" class="text-black-300">Your words!</label>
+              <textarea
+                name="desc"
+                id="body"
+                cols="70"
+                rows="6"
+                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
+              >
+<%= data.desc %></textarea
+              >
+              <p class="invalid-feedback">Body content is required!</p>
+            </div>
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-sm btn-primary me-n2">
+                Save<img src="images/arrow-right.png" alt="" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

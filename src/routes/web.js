@@ -46,6 +46,18 @@ router.get(
   setLayout("layouts/user"),
   userController.getProfile
 );
+router.get(
+  "/profile/edit",
+  authMidelware,
+  setLayout("layouts/user"),
+  userController.getEditProfile
+);
+router.put(
+  "/edit-profile/:id",
+  authMidelware,
+  setLayout("layouts/user"),
+  userController.putProfile
+);
 
 // Post
 router.post("/add-post", postController.createPost);
@@ -61,7 +73,7 @@ router.get(
   setLayout("layouts/user"),
   postController.readOnePostUser
 );
-// router.get("/dashboard", postController.readPost);
+
 router.put(
   "/edit-post/:id",
   authMidelware,
