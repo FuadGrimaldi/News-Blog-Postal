@@ -15,7 +15,7 @@ const readUser = async (req, res) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(5000).sen({ message: "Internal Server Error" });
+    res.status(5000).send({ message: "Internal Server Error" });
   }
 };
 
