@@ -109,6 +109,6 @@ app.post("/upload/:id", upload.single("avatar"), async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`App Listing On Port: 4000`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`App Run`);
 });
