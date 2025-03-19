@@ -91,6 +91,7 @@ const getDashboardUser = async (req, res) => {
   try {
     let warningMessage;
     let name;
+    let avatar;
     const locals = {
       title: "Dashboard",
       description: "Simple portal created with NodeJS, Express & MongoDB ",
@@ -113,6 +114,7 @@ const getDashboardUser = async (req, res) => {
     data.forEach((user) => {
       if (user._id == sessionUserId) {
         name = user.name;
+        avatar = user.avatar;
         if (
           !user.job ||
           !user.contact ||
@@ -128,6 +130,7 @@ const getDashboardUser = async (req, res) => {
     res.render("user/index", {
       locals,
       data,
+      avatar,
       dataPost,
       name,
       sessionUserId,
@@ -170,17 +173,32 @@ const getEditProfile = async (req, res) => {
 const putProfile = async (req, res) => {
   try {
     const sessionUserId = req.session.userId;
-    await User.findByIdAndUpdate(sessionUserId, {
+    // if (!sessionUserId) {
+    //   return res
+    //     .status(401)
+    //     .send({ message: "Unauthorized: User not logged in" });
+    // }
+    const updateData = {
       name: req.body.name,
       address: req.body.address,
       email: req.body.email,
       contact: req.body.contact,
       gender: req.body.gender,
-      avatar: req.file,
       desc: req.body.desc,
       job: req.body.job,
-      updateAt: Date.now(),
-    });
+      updatedAt: Date.now(),
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(
+      sessionUserId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
     const message = "Update Profile Successfull!";
     req.session.Message = message;
     res.redirect("/profile");

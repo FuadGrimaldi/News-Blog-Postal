@@ -10,20 +10,26 @@ const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const methodOverride = require("method-override");
-const upload = require("./src/controller/UploadController");
+const AWS = require("aws-sdk");
 const multer = require("multer");
+const fs = require("fs");
+const User = require("./src/models/User");
+
+// Konfigurasi AWS
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+const s3 = new AWS.S3();
+const upload = multer({ dest: "uploads/" });
+
 // Connection Database MongoDB
 connectDb();
 // Server
 const app = express();
-const port = 4000 || process.env.port;
-// Upload img
-app.use(
-  multer({
-    storage: upload.profileStorage,
-    fileFilter: upload.fileFilter,
-  }).single("avatar")
-);
+const port = 3000 || process.env.port;
 // Request API parsing data
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -67,6 +73,41 @@ app.use((req, res, next) => {
 });
 // route API
 app.use("/", router);
+app.post("/upload/:id", upload.single("avatar"), async (req, res) => {
+  try {
+    const sessionUserId = req.session.userId;
+    const userId = req.params.id;
+
+    if (sessionUserId !== userId) {
+      return res.status(403).send("Unauthorized to update this profile");
+    }
+
+    const fileContent = fs.readFileSync(req.file.path);
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: `avatars/${Date.now()}_${req.file.originalname}`, // Nama unik
+      Body: fileContent,
+    };
+
+    s3.upload(params, async (err, data) => {
+      fs.unlinkSync(req.file.path); // Hapus file lokal setelah diunggah
+      if (err) {
+        return res.status(500).send("Error saat mengunggah file");
+      }
+
+      // Update avatar URL di database
+      await User.findByIdAndUpdate(userId, {
+        avatar: data.Location,
+        updatedAt: Date.now(),
+      });
+
+      res.redirect("/profile");
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
 
 app.listen(port, () => {
   console.log(`App Listing On Port: 4000`);

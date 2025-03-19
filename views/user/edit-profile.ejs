@@ -1,122 +1,176 @@
-<div class="row">
-  <div class="col-md-10">
-    <div class="contact-form bg-dark">
-      <h1 class="text-white add-letter-space mb-5">Edit Your Profile!</h1>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="contact-form bg-dark p-4 rounded shadow-lg">
+      <h1 class="text-white text-center mb-4">Edit Your Profile</h1>
+
+      <!-- Profile Picture -->
+      <div class="text-center mb-4">
+        <img
+          src="<%= data.avatar || '/default-profile.png' %>"
+          alt="Profile Picture"
+          class="rounded-circle shadow-lg img-thumbnail"
+          style="
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            cursor: pointer;
+          "
+          id="editImageBtn"
+        />
+        <br />
+        <button
+          type="button"
+          class="btn btn-warning mt-2"
+          data-bs-toggle="modal"
+          data-bs-target="#uploadImageModal"
+        >
+          Update Image
+        </button>
+      </div>
+
+      <!-- Form Edit Profile -->
       <form
         method="POST"
         class="needs-validation"
         action="/edit-profile/<%= data._id %>?_method=PUT"
       >
         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group mb-5">
-              <label for="Name" class="text-black-300">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
-                value="<%= data.name %>"
-              />
-            </div>
+          <div class="col-md-6 mb-3">
+            <label for="name" class="text-white">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control"
+              value="<%= data.name %>"
+            />
           </div>
-          <div class="col-md-6">
-            <div class="form-group mb-5">
-              <label for="address" class="text-black-300">Address</label>
-              <input
-                type="text"
-                value="<%= data.address %>"
-                name="address"
-                id="address"
-                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
-              />
-            </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="address" class="text-white">Address</label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              class="form-control"
+              value="<%= data.address %>"
+            />
           </div>
-          <div class="col-md-6">
-            <div class="form-group mb-5">
-              <label for="contact" class="text-black-300">Contact</label>
-              <input
-                type="text"
-                value="<%= data.contact %>"
-                name="contact"
-                id="contact"
-                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
-                placeholder="08324334232"
-              />
-            </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="contact" class="text-white">Contact</label>
+            <input
+              type="text"
+              id="contact"
+              name="contact"
+              class="form-control"
+              value="<%= data.contact %>"
+              placeholder="08324334232"
+            />
           </div>
-          <div class="col-md-6">
-            <div class="form-group mb-5">
-              <label for="email" class="text-black-300">Email</label>
-              <input
-                type="email"
-                value="<%= data.email %>"
-                name="email"
-                id="email"
-                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
-                placeholder="abobo@gmail.com"
-              />
-            </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="email" class="text-white">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              value="<%= data.email %>"
+              placeholder="example@gmail.com"
+            />
           </div>
-          <div class="col-md-6">
-            <div class="form-group mb-5">
-              <label for="job" class="text-black-300">Job</label>
-              <input
-                value="<%= data.job %>"
-                type="text"
-                name="job"
-                id="job"
-                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
-              />
-            </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="job" class="text-white">Job</label>
+            <input
+              type="text"
+              id="job"
+              name="job"
+              class="form-control"
+              value="<%= data.job %>"
+            />
           </div>
-          <div class="col-md-6">
-            <div class="form-group mb-5">
-              <label class="text-black-300">Gender</label>
-              <select class="d-block w-100" name="gender">
-                <option value="<%= data.gender %>"><%= data.gender %></option>
-                <option value="Pria">Pria</option>
-                <option value="Wanita">Wanita</option>
-              </select>
-            </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="gender" class="text-white">Gender</label>
+            <select class="form-control" name="gender">
+              <option value="<%= data.gender %>"><%= data.gender %></option>
+              <option value="Pria">Pria</option>
+              <option value="Wanita">Wanita</option>
+            </select>
           </div>
-          <div class="col-md-6">
-            <div class="form-group mb-5">
-              <form
-                action="/profile"
-                method="post"
-                enctype="multipart/form-data"
-              >
-                <label for="image">Image</label>
-                <input type="file" name="avatar" />
-              </form>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group mb-5"></div>
-          </div>
-          <div class="col-md">
-            <div class="form-group mb-5">
-              <label for="body" class="text-black-300">Your words!</label>
-              <textarea
-                name="desc"
-                id="body"
-                cols="70"
-                rows="6"
-                class="form-control bg-transparent rounded-0 border-bottom shadow-none pb-15 px-0"
-              >
+
+          <div class="col-md-12 mb-3">
+            <label for="desc" class="text-white">Your words!</label>
+            <textarea id="desc" name="desc" class="form-control" rows="4">
 <%= data.desc %></textarea
-              >
-              <p class="invalid-feedback">Body content is required!</p>
-            </div>
-            <div class="col-md-12">
-              <button type="submit" class="btn btn-sm btn-primary me-n2">
-                Save<img src="images/arrow-right.png" alt="" />
-              </button>
-            </div>
+            >
+          </div>
+
+          <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">
+              Save Changes <img src="images/arrow-right.png" alt="" />
+            </button>
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
+
+<!-- Modal untuk Upload Gambar -->
+<div
+  class="modal fade"
+  id="uploadImageModal"
+  tabindex="-1"
+  aria-labelledby="uploadImageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark" id="uploadImageModalLabel">
+          Update Profile Image
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          id="uploadImageForm"
+          action="/upload/<%= data._id %>"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="file"
+            name="avatar"
+            accept="image/*"
+            class="form-control mb-3"
+            required
+          />
+          <button type="submit" class="btn btn-primary w-100">Upload</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document
+    .getElementById("editImageBtn")
+    .addEventListener("click", function () {
+      document.getElementById("updateImageModal").style.display = "block";
+    });
+
+  document
+    .getElementById("cancelUpdate")
+    .addEventListener("click", function () {
+      document.getElementById("updateImageModal").style.display = "none";
+    });
+</script>
